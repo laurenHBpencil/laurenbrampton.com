@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lauren's Desktop Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'VT323', monospace;
+      background: url('images/icons/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: black;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background-color: #000080;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      padding: 0 10px;
+      font-size: 20px;
+    }
+
+    .desktop {
+      padding: 60px 10px 50px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .icon {
+      width: 64px;
+      text-align: center;
+      color: white;
+      cursor: pointer;
+    }
+
+    .icon img {
+      width: 48px;
+      height: 48px;
+    }
+
+    a {
+      color: black;
+    }
+
+    .tooltip {
+      display: none;
+      position: absolute;
+      background: #fff8dc;
+      border: 1px solid black;
+      padding: 5px;
+      font-size: 16px;
+      max-width: 200px;
+    }
+
+    .window {
+      position: absolute;
+      background-color: #c0c0c0;
+      border: 2px solid #000080;
+      box-shadow: 4px 4px #000;
+      width: 350px;
+      padding: 10px;
+      top: 50px;
+      left: 50px;
+      z-index: 1;
+    }
+
+    .title-bar {
+      background-color: #000080;
+      color: white;
+      padding: 5px;
+      cursor: move;
+      position: relative;
+      user-select: none;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 8px;
+      top: 2px;
+      cursor: pointer;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+</head>
+
+
+<body>
+  <!-- Desktop Icons with Custom XP Icons -->
+  <div class="desktop">
+    <div class="icon" onclick="toggleWindow('about')">
+      <img src="images/icons/info.png" alt="About">
+      <div>About Me</div>
+    </div>
+
+    <div class="icon" onclick="toggleWindow('projects')">
+      <img src="images/icons/cmd.png" alt="Projects">
+      <div>Projects</div>
+    </div>
+
+    <div class="icon" onclick="toggleWindow('skills')">
+      <img src="images/icons/settings.png" alt="Skills">
+      <div>Skills</div>
+    </div>
+
+    <div class="icon" onclick="toggleWindow('education')">
+      <img src="images/icons/certs.png" alt="Education">
+      <div>Education & Certs</div>
+    </div>
+
+    <div class="icon" onclick="toggleWindow('experience')">
+      <img src="images/icons/experience.png" alt="Experience">
+      <div>Experience</div>
+    </div>
+
+    <div class="icon" onclick="toggleWindow('cv')">
+      <img src="images/icons/note.png" alt="CV">
+      <div>CV</div>
+    </div>
+
+    <div class="icon" onclick="toggleWindow('contact')">
+      <img src="images/icons/folder.png" alt="Contact">
+      <div>Contact</div>
+    </div>
+  </div>
+
+<!-- Window: About Me -->
+<div class="window" id="about" style="display:none;">
+  <div class="title-bar">About Me <span class="close-btn" onclick="closeWindow('about')">X</span></div>
+  <div style="text-align: center;">
+    <img src="images/about/me.jpg" alt="Lauren Brampton" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); margin-bottom: 10px;">
+    <p>Hi! I’m Lauren Brampton, a third-year Game & Software Development student at TUS Thurles.</p>
+    <p>I love making & playing games, learning Unreal Engine, and creating 3D assets in Blender.</p>
+    <p>I have spent 19 years in Ireland (originally from England).</p>
+    <p>From a young age I have always loved playing video games, my dad was always keeping my brother and I up to date with the newest consoles & games. 
+      From the age of 4, my fasination with video games grew & when lockdown hit, bored in my room I found myself learning java to make plugins for minecraft or taking apart old computers to see how they work! 
+      Since then I knew I was meant to be in the IT workforce. Now I am my families personal computer tech, debugging issues and even fixing phone screens!
+    </p>
+  </div>
+</div>
+
+
+  <!-- Window: Projects -->
+<div class="window" id="projects" style="display:none;">
+  <div class="title-bar">Projects <span class="close-btn" onclick="closeWindow('projects')">X</span></div>
+  <div>
+    <ul>
+      <!-- Clicking each opens a fullscreen explorer view -->
+      <li><a href="#" onclick="openExplorer('allcats')">All Cats Must Die</a></li>
+      <li><a href="#" onclick="openExplorer('pcosTracker')">PCOS Tracker (HTML/Netbeans/Servlets/SQL)</a></li>
+      <li><a href="#" onclick="openExplorer('cluedo')">Top-Cat Cluedo (Java)</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Fullscreen "Fake Explorer" Project Viewer -->
+<div class="window" id="explorer" style="display:none; width: 90%; height: 80%; top: 5%; left: 5%;">
+  <div class="title-bar">
+    Explorer - <span id="explorer-title">Project</span>
+    <span class="close-btn" onclick="closeWindow('explorer')">X</span>
+  </div>
+  <div style="height: calc(100% - 40px); background: white; padding: 10px; overflow-y: auto;">
+    <!-- Placeholder content that will be replaced -->
+    <div id="explorer-content">
+      <p>Loading...</p>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Window: Skills -->
+  <div class="window" id="skills" style="display:none;">
+    <div class="title-bar">Skills <span class="close-btn" onclick="closeWindow('skills')">X</span></div>
+    <div>
+      <p>Programming: Java, C++, JavaScript, HTML, SQL, R</p>
+      <p>Game Dev: Unreal Engine, Construct, Unity (basic)</p>
+      <p>Web & Backend: HTML/CSS, SQL with Java (NetBeans)</p>
+      <p>Tools: Photoshop, Blender (learning), VirtualBox</p>
+      <p>Systems: Windows, Linux, PC hardware repair</p>
+    </div>
+  </div>
+
+<!-- Window: Education & Certifications -->
+<div class="window" id="education" style="display:none;">
+  <div class="title-bar">Education & Certifications <span class="close-btn" onclick="closeWindow('education')">X</span></div>
+  <div style="font-size: 16px;">
+    <p><strong>TUS Thurles</strong><br>
+    BSc in Game & Software Development<br>
+    <em>2022–2027</em></p>
+    <p><strong>Coursera</strong><br>
+    Certificate Game Design and Unreal Engine Development<br>
+    <em>June 2025–Present</em></p>
+
+    <p><strong>Certifications:</strong><br>
+    - Introduction to Game Design - 
+    <a href="https://coursera.org/share/6416cc321b8ab16005d3541097041921" target="_blank">View Certificate</a></p>
+  </div>
+</div>
+
+
+  <div class="window" id="experience" style="display:none;">
+  <div class="title-bar">Experience & Volunteering <span class="close-btn" onclick="closeWindow('experience')">X</span></div>
+  <div style="max-height: 400px; overflow-y: auto; font-size: 16px;">
+
+    <p><strong>Cleaning Operative – An Garda Síochána</strong><br>
+    <em>01/09/2024 – Current</em><br>
+    Performed regular and deep cleaning tasks across high traffic areas, ensuring hygiene and safety compliance. Used cleaning chemicals responsibly, maintaining a clean, secure work environment.</p>
+
+    <p><strong>Compliance Auditor – Serve Legal Ireland</strong><br>
+    <em>01/05/2024 – Current</em><br>
+    Did undercover compliance checks for alcohol and tobacco sales. Reported findings accurately and provided recommendations to improve store practices.</p>
+
+    <p><strong>Cashier – Barry’s SuperValu, Thurles</strong><br>
+    <em>02/06/2024 – 28/09/2024</em><br>
+    Processed customer transactions, validated payments and managed end-of-day closing tasks including deli cleaning, closing lottery machines, self checkouts and cashing out.</p>
+
+    <p><strong>Shop Assistant – O’Keeffe’s SuperValu, Bantry</strong><br>
+    <em>02/10/2021 – 12/06/2024</em><br>
+    Handled tills, lottery, cheque payouts, handled cheques and customer service. Also rotated and stocked items, worked the bakery, and served in the café.</p>
+
+    <p><strong>Waitress – Marianne O’Donovan</strong><br>
+    <em>07/06/2020 – 04/02/2021</em><br>
+    Ensured accurate orders, prepped cutlery, cleaned efficiently and supported fast-paced food service flow.</p>
+
+    <p><strong>Photographer Assistant – Sharron O’Rourke Photography</strong><br>
+    <em>16/10/2018</em><br>
+    Prepared sets, charged batteries and assisted with family photography sessions, ensuring smooth, enjoyable experiences for clients.</p>
+
+    <hr>
+    <h4>Volunteering</h4>
+    <p><strong>Tidy Towns Volunteer</strong><br>
+    Contributed to community clean ups to improve the appearance and hygiene of public areas, making local spaces more welcoming to locals and tourists.</p>
+
+    <p><strong>Scouts</strong><br>
+    Participated in outdoor activities and service projects, while developing first aid, leadership and life skills in a team based setting.</p>
+
+    <p><strong>Charity Skydiving (2023)</strong><br>
+    Successfully completed a charity skydive with my mother to raise funds and awareness for charity.</p>
+
+    <p><strong>Charity Shop (2019 - 2024)</strong><br>
+    Worked in a local charity shop, helping put out new stock and managing the checkout.</p>
+
+  </div>
+</div>
+  <!-- Window: CV -->
+  <div class="window" id="cv" style="display:none;">
+    <div class="title-bar">CV <span class="close-btn" onclick="closeWindow('cv')">X</span></div>
+    <div>
+      <a href="https://drive.google.com/file/d/1oNbvtuALDqEz0dAQQZ4YdsHq2EW_kcOr/view?usp=sharing" target="_blank">View Creative CV</a>
+      <p><a href="https://drive.google.com/file/d/1CgQHqrJU5e52xE_UxSb-xH9r9SmIM886/view?usp=sharing" target="_blank">View Professional CV</a></p>
+    </div>
+  </div>
+
+  <!-- Window: Contact -->
+  <div class="window" id="contact" style="display:none;">
+    <div class="title-bar">Contact <span class="close-btn" onclick="closeWindow('contact')">X</span></div>
+    <div>
+      <p>Email: <a href="mailto:laurenbrampton2003@gmail.com">laurenbrampton2003@gmail.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/lauren-h-brampton-548680310">View Profile</a></p>
+      <p>Location: Templemore Co.Tipperary/Bantry Co.Cork</p>
+      <p>Will commute/relocate if needed</p>
+    </div>
+  </div>
+
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <div>Start</div>
+    <div id="clock"></div>
+  </div>
+
+  <script>
+    // Open or close window
+    function toggleWindow(id) {
+      const win = document.getElementById(id);
+      win.style.display = win.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Close button functionality
+    function closeWindow(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    // Clock update
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Tooltip for job descriptions
+    function showTip(e, text) {
+      const tip = document.getElementById('tip');
+      tip.textContent = text;
+      tip.style.display = 'block';
+      tip.style.left = (e.pageX + 10) + 'px';
+      tip.style.top = (e.pageY + 10) + 'px';
+    }
+
+    // Tooltip follow cursor
+    document.body.addEventListener('mousemove', function(e) {
+      const tip = document.getElementById('tip');
+      if (tip.style.display === 'block') {
+        tip.style.left = (e.pageX + 10) + 'px';
+        tip.style.top = (e.pageY + 10) + 'px';
+      }
+    });
+
+    document.body.addEventListener('mouseleave', () => {
+      document.getElementById('tip').style.display = 'none';
+    });
+
+    // Dragging functionality
+    document.querySelectorAll('.window').forEach(makeDraggable);
+
+    function makeDraggable(el) {
+      const titleBar = el.querySelector('.title-bar');
+      let offsetX = 0, offsetY = 0, isDown = false;
+
+      titleBar.addEventListener('mousedown', (e) => {
+        isDown = true;
+        offsetX = e.clientX - el.offsetLeft;
+        offsetY = e.clientY - el.offsetTop;
+        el.style.zIndex = parseInt(el.style.zIndex || 1) + 1;
+      });
+
+      document.addEventListener('mouseup', () => isDown = false);
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        el.style.left = (e.clientX - offsetX) + 'px';
+        el.style.top = (e.clientY - offsetY) + 'px';
+      });
+    }
+     // Opens the fake Explorer view
+    function openExplorer(projectId) {
+    closeWindow('projects');
+
+    const explorer = document.getElementById('explorer');
+    const title = document.getElementById('explorer-title');
+    const content = document.getElementById('explorer-content');
+
+    const titles = {
+      allcats: "All Cats Must Die",
+      zombie: "PCOS Tracker (SFML)",
+      cluedo: "Top-Cat Cluedo UI (Java)"
+    };
+    title.textContent = titles[projectId] || "Project";
+
+    switch (projectId) {
+      case 'allcats':
+  content.innerHTML = `
+    <h2>All Cats Must Die</h2>
+    <p><em>🏆 Winner of the "Most Commended Game" award at Games Fleadh 2025 🏆</em></p>
+    
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+      <div style="flex: 1 1 60%; min-width: 300px;">
+        <p><strong>Tools Used:</strong> Construct 3</p>
+        <p><strong>Description:</strong><br><br>
+        All Cats Must Die is a fast paced, chaotic 2D party platformer for two players. Players take turns placing obstacles and platforms to build the level then race across it.</p>
+        <p>The catch? You must sabotage your opponent while making sure you survive yourself!</p>
+        <p><strong>Features:</strong></p>
+        <ul>
+          <li>Build as you play level system with competitive sabotage mechanics</li>
+          <li>Stylized pixel art with expressive animations and UI</li>
+          <li>Muttiple levels</li>
+          <li>Fun and impactful sound effects and music</li>
+        </ul>
+        <p><strong>What I Learned:</strong><br>
+        Implementing different machines, balancing level pacing in a party setting, level building and engaging gameplay using Construct 3.</p>
+      </div>
+      
+      <div style="flex: 1 1 35%; min-width: 280px; padding-left: 20px;">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/DnbOiE1-alE" 
+          title="All Cats Must Die Trailer" frameborder="0" allowfullscreen></iframe>
+        <p style="text-align: center;"><em>Watch the trailer</em></p>
+      </div>
+    </div>
+
+    <h3>Gallery</h3>
+<div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
+  <img src="images/allCats/allcats5.jpg" alt="Screenshot 1" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/allCats/allcats6.jpg" alt="Screenshot 2" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/allCats/allcats1.png" alt="Screenshot 3" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/allCats/allcats2.png" alt="Screenshot 4" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/allCats/allcats3.png" alt="Screenshot 5" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/allCats/allcats4.png" alt="Screenshot 6" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/allCats/allcats7.jpg" alt="Screenshot 7" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/allCats/allcats8.jpg" alt="Screenshot 8" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+</div>
+
+  `;
+  break;
+
+
+
+
+      case 'pcosTracker':
+         content.innerHTML = `
+  <h2>PCOS Tracker</h2>
+  <p><em>A personal health tracking web app made for assignment submission in Java Web Development</em></p>
+  
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <div style="flex: 1 1 60%; min-width: 300px;">
+      <p><strong>Tools Used:</strong> Java EE (Servlets & JSP), NetBeans, MySQL, JDBC</p>
+      <p><strong>Description:</strong><br><br>
+      PCOS Tracker is a Java-based web application that allows users to register, log in and track their menstrual cycles, PCOS symptoms, research lifestyle habits and mental health.</p>
+      <p>The application is designed for privacy and ease of use, helping users identify patterns and control of their health data.</p>
+      <p><strong>Features:</strong></p>
+      <ul>
+        <li>User registration and login with session management</li>
+        <li>Cycle and symptom logging with notes, severity and timestamp</li>
+        <li>Clean interface with navbar and protected pages</li>
+        <li>MySQL database integration using JDBC</li>
+      </ul>
+      <p><strong>What I Learned:</strong><br>
+      Building a full stack Java web app from scratch with servlets and JSP, managing session based authentication, and working directly with JDBC for SQL queries and security.</p>
+
+      <p><a href="https://github.com/laurenHBpencil/PCOSTracker" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 15px; background-color: #000080; color: white; text-decoration: none; border-radius: 5px;">
+        View on GitHub
+      </a></p>
+    </div>
+    
+    <div style="flex: 1 1 35%; min-width: 280px; padding-left: 20px;">
+      <img src="images/pcosTracker/main.png" alt="PCOS Tracker Screenshot" style="width: 100%; border-radius: 5px;">
+      <p style="text-align: center;"><em>Screenshot: Main dashboard</em></p>
+    </div>
+  </div>
+
+  <h3>Gallery</h3>
+<div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
+  <img src="images/pcosTracker/main.png" alt="Main Page" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/login.png" alt="Login Page" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/register.png" alt="Register Page" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/logmen.png" alt="Cycle Log Table" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/loggedmen.png" alt="Cycle Logged Table" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/logpcos.png" alt="Symptom Log Table" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/loggedpcos.png" alt="Symptom Logged Table" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/lifestyle.png" alt="Lifestyle Tracker" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/mentalhealth.png" alt="Mental Health Form" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/sqlUser.png" alt="SQL User Table" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/sqlCycle.png" alt="SQL Cycle Table" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  <img src="images/pcosTracker/sqlSymp.png" alt="SQL Symptom Table" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+</div>
+
+`;
+break;
+
+
+          case 'cluedo': 
+  content.innerHTML = `
+  <h2>Cluedo UI</h2>
+  <p><em> A Java based digital Top-Cat themed board game inspired by classic Cluedo </em></p>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <div style="flex: 1 1 60%; min-width: 300px;">
+      <p><strong>Tools Used:</strong> Java, Java Swing</p>
+      <p><strong>Description:</strong><br><br>
+      Top-Cat Cluedo UI is a digital version of the classic detective board game built using Java and Swing. Players take turns moving around the board, entering rooms and making accusations based on dealt cards.</p>
+
+      <p><strong>Features:</strong></p>
+      <ul>
+        <li>Turn based gameplay with dice rolls and player tracking</li>
+        <li>Custom UI elements for rooms, characters and cards</li>
+        <li>Card dealing system with suspects, weapons and rooms</li>
+        <li>Accusation system with logic to determine correct guesses</li>
+        <li>Player specific notes/checklist system</li>
+        <li>Game analytics saved automatically to a .txt file</li>
+        <li>Expandable and modular object oriented structure</li>
+      </ul>
+
+      <p><strong>What I Learned:</strong><br>
+      Swing-based UI design, game state handling, lambda expressions, file writing in Java, object oriented programming and managing inter-class communication in larger Java projects.</p>
+
+      <p><a href="https://github.com/laurenHBpencil/CluedoTopcat" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 15px; background-color: #000080; color: white; text-decoration: none; border-radius: 5px;">
+        View on GitHub
+      </a></p>
+    </div>
+
+    <div style="flex: 1 1 35%; min-width: 280px; padding-left: 20px;">
+      <img src="images/cluedo/cluedoui.png" alt="Cluedo UI Screenshot" style="width: 100%; border-radius: 5px;">
+      <p style="text-align: center;"><em>Screenshot: Game interface</em></p>
+    </div>
+  </div>
+
+  <h3>Gallery</h3>
+  <div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
+    <img src="images/cluedo/cluedoui.png" alt="Main UI" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/cluedo/cards.png" alt="Cards" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/cluedo/notes.png" alt="Notes" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/cluedo/rules.png" alt="Rules" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/cluedo/errorpopup.png" alt="Error Popup" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;"> 
+    <img src="images/cluedo/suggestion.png" alt="Suggestion Popup" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/cluedo/suggestion2.png" alt="Suggestion Popup2" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/cluedo/win.png" alt="Win Screen" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/cluedo/terminal.png" alt="Terminal" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/cluedo/analytics.png" alt="Analytics.txt" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  </div>
+  `;
+  break;
+
+      default:
+        content.innerHTML = `<p>Project details not found.</p>`;
+    }
+
+    explorer.style.display = 'block';
+  }
+  function showImageModal(src) {
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  modalImg.src = src;
+  modal.style.display = 'flex';
+}
+
+function closeImageModal() {
+  document.getElementById('imageModal').style.display = 'none';
+}
+
+  </script>
+  <!-- Image Modal -->
+<div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:999;">
+  <span onclick="closeImageModal()" style="position:absolute; top:20px; right:30px; font-size:30px; color:white; cursor:pointer;">&times;</span>
+  <img id="modalImage" src="" alt="Enlarged Image" style="max-width:90%; max-height:90%; border:5px solid white; border-radius:10px;">
+</div>
+
+</body>
+</html>
