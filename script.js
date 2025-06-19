@@ -211,6 +211,47 @@ break;
   </div>
   `;
   break;
+            case 'clientServer':
+  content.innerHTML = `
+  <h2>Python Client-Server Numbers</h2>
+  <p><em>A basic socket-based number evaluator made for networking assignment.</em></p>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <div style="flex: 1 1 60%; min-width: 300px;">
+      <p><strong>Tools Used:</strong> Python, Sockets (TCP), Terminal, Virtual Box</p>
+      <p><strong>Description:</strong><br><br>
+      A simple functional Python project where the client sends a number to the server and the server responds with evaluations such as whether the number is even/odd and whether it's a power of 2.</p>
+
+      <p><strong>Features:</strong></p>
+      <ul>
+        <li>Client connects to server via TCP sockets</li>
+        <li>Server accepts connections and processes number input</li>
+        <li>Server returns messages (e.g "Even" and "Power of 2")</li>
+        <li>Error handling for invalid inputs</li>
+      </ul>
+
+      <p><strong>What I Learned:</strong><br>
+      Fundamentals of network programming using Python sockets, server-client data flow and simple protocol design for communication.</p>
+
+      <p><a href="https://github.com/laurenHBpencil/Python-Client-Server-Numbers" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 15px; background-color: #000080; color: white; text-decoration: none; border-radius: 5px;">
+        View on GitHub
+      </a></p>
+    </div>
+
+    <div style="flex: 1 1 35%; min-width: 280px; padding-left: 20px;">
+      <img src="images/clientServer/serverClient3.png" alt="Python Server Terminal" style="width: 100%; border-radius: 5px;">
+      <p style="text-align: center;"><em>Screenshot: Client and Server terminal output</em></p>
+    </div>
+  </div>
+
+  <h3>Gallery</h3><p><em>Click to enlarge photos</em> </p>
+  <div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
+    <img src="images/clientServer/serverClient1.png" alt="Terminal Example" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/clientServer/serverClient2.png" alt="Terminal Example 2" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/clientServer/serverClient3.png" alt="Terminal Example 3" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  </div>
+  `;
+  break;
 
       default:
         content.innerHTML = `<p>404: Project details not found!!</p>`;
