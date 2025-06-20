@@ -1,68 +1,63 @@
 //Open/close window
-    function toggleWindow(id) 
-    {
-      const win = document.getElementById(id);
-      win.style.display = win.style.display === 'none' ? 'block' : 'none';
-    }
+function toggleWindow(id) {
+  const win = document.getElementById(id);
+  win.style.display = win.style.display === 'none' ? 'block' : 'none';
+}
 
-    //Close button func
-    function closeWindow(id) 
-    {
-      document.getElementById(id).style.display = 'none';
-    }
+//Close button func
+function closeWindow(id) {
+  document.getElementById(id).style.display = 'none';
+}
 
-    //Clock update
-    function updateClock() 
-    {
-      const now = new Date();
-      document.getElementById('clock').textContent = now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+//Clock update
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString();
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-    //Dragging func
-    document.querySelectorAll('.window').forEach(makeDraggable);
+//Dragging func
+document.querySelectorAll('.window').forEach(makeDraggable);
 
-    function makeDraggable(el) {
-      const titleBar = el.querySelector('.title-bar');
-      let offsetX = 0, offsetY = 0, isDown = false;
+function makeDraggable(el) {
+  const titleBar = el.querySelector('.title-bar');
+  let offsetX = 0, offsetY = 0, isDown = false;
 
-      titleBar.addEventListener('mousedown', (e) => {
-        isDown = true;
-        offsetX = e.clientX - el.offsetLeft;
-        offsetY = e.clientY - el.offsetTop;
-        el.style.zIndex = parseInt(el.style.zIndex || 1) + 1;
-      });
+  titleBar.addEventListener('mousedown', (e) => {
+    isDown = true;
+    offsetX = e.clientX - el.offsetLeft;
+    offsetY = e.clientY - el.offsetTop;
+    el.style.zIndex = parseInt(el.style.zIndex || 1) + 1;
+  });
 
-      document.addEventListener('mouseup', () => isDown = false);
+  document.addEventListener('mouseup', () => isDown = false);
 
-      document.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        el.style.left = (e.clientX - offsetX) + 'px';
-        el.style.top = (e.clientY - offsetY) + 'px';
-      });
-    }
-     //Opens fake Explorer view
-    function openExplorer(projectId) 
-    {
-    closeWindow('projects');
+  document.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    el.style.left = (e.clientX - offsetX) + 'px';
+    el.style.top = (e.clientY - offsetY) + 'px';
+  });
+}
+//Opens fake Explorer view
+function openExplorer(projectId) {
+  closeWindow('projects');
 
-    const explorer = document.getElementById('explorer');
-    const title = document.getElementById('explorer-title');
-    const content = document.getElementById('explorer-content');
+  const explorer = document.getElementById('explorer');
+  const title = document.getElementById('explorer-title');
+  const content = document.getElementById('explorer-content');
 
-    const titles = 
-    {
-      allcats: "All Cats Must Die",
-      zombie: "PCOS Tracker (SFML)",
-      cluedo: "Top-Cat Cluedo UI (Java)"
-    };
-    title.textContent = titles[projectId] || "Project";
+  const titles =
+  {
+    allcats: "All Cats Must Die",
+    zombie: "PCOS Tracker (SFML)",
+    cluedo: "Top-Cat Cluedo UI (Java)"
+  };
+  title.textContent = titles[projectId] || "Project";
 
-    switch (projectId) 
-    {
-      case 'allcats':
-  content.innerHTML = `
+  switch (projectId) {
+    case 'allcats':
+      content.innerHTML = `
     <h2>All Cats Must Die</h2>
     <p><em>🏆 Winner of the "Most Commended Game" award at Games Fleadh 2025 🏆</em></p>
     
@@ -103,10 +98,10 @@
 </div>
 
   `;
-  break;
+      break;
 
-  case 'portfolioWebsite':
-  content.innerHTML = `
+    case 'portfolioWebsite':
+      content.innerHTML = `
     <h2>Portfolio Website</h2>
     <p><em>An old Windows XP themed personal website made using HTML, CSS and JavaScript</em></p>
 
@@ -149,10 +144,10 @@
     <img src="images/portfolio/site.png" alt="Homepage" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
   </div>
   `;
-  break;
+      break;
 
-      case 'pcosTracker':
-         content.innerHTML = `
+    case 'pcosTracker':
+      content.innerHTML = `
   <h2>PCOS Tracker</h2>
   <p><em>A personal health tracking web app made for assignment submission in Java Web Development</em></p>
   
@@ -200,11 +195,11 @@
 </div>
 
 `;
-break;
+      break;
 
 
-          case 'cluedo': 
-  content.innerHTML = `
+    case 'cluedo':
+      content.innerHTML = `
   <h2>Cluedo UI</h2>
   <p><em> A Java based digital Top-Cat themed board game inspired by classic Cluedo </em></p>
 
@@ -253,9 +248,9 @@ break;
     <img src="images/cluedo/analytics.png" alt="Analytics.txt" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
   </div>
   `;
-  break;
-            case 'clientServer':
-  content.innerHTML = `
+      break;
+    case 'clientServer':
+      content.innerHTML = `
   <h2>Python Client-Server Numbers</h2>
   <p><em>A basic socket-based number evaluator made for networking assignment.</em></p>
 
@@ -294,24 +289,22 @@ break;
     <img src="images/clientServer/serverClient3.png" alt="Terminal Example 3" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
   </div>
   `;
-  break;
+      break;
 
-      default:
-        content.innerHTML = `<p>404: Project details not found!!</p>`;
-    }
-
-    explorer.style.display = 'block';
+    default:
+      content.innerHTML = `<p>404: Project details not found!!</p>`;
   }
-  //Show images enlarged
-  function showImageModal(src) 
-  {
+
+  explorer.style.display = 'block';
+}
+//Show images enlarged
+function showImageModal(src) {
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImage');
   modalImg.src = src;
   modal.style.display = 'flex';
 }
 
-function closeImageModal() 
-{
+function closeImageModal() {
   document.getElementById('imageModal').style.display = 'none';
 }
