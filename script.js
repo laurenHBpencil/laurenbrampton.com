@@ -90,7 +90,7 @@
       </div>
     </div>
 
-    <h3>Gallery</h3>
+    <h3>Gallery</h3><p><em>Click to enlarge photos</em> </p>
 <div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
   <img src="images/allCats/allcats5.jpg" alt="Screenshot 1" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
   <img src="images/allCats/allcats6.jpg" alt="Screenshot 2" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
@@ -105,8 +105,51 @@
   `;
   break;
 
+  case 'portfolioWebsite':
+  content.innerHTML = `
+    <h2>Portfolio Website</h2>
+    <p><em>An old Windows XP themed personal website made using HTML, CSS and JavaScript</em></p>
 
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+      <div style="flex: 1 1 60%; min-width: 300px;">
+        <p><strong>Tools Used:</strong> HTML, CSS, JavaScript, GitHub Pages</p>
+        <p><strong>Description:</strong><br><br>
+        This portfolio site was built from scratch to reflect my love for old tech and operating systems. It acts as a showcase to show all my personal and college projects, skills and contact information.</p>
 
+        <p><strong>Features:</strong></p>
+        <ul>
+          <li>XP style interface with draggable windows</li>
+          <li>Project viewer with fullscreen explorer sections</li>
+          <li>Stylized CV display and contact links</li>
+          <li>GitHub Pages deployment with custom domain</li>
+          <li>Basic site analytics to track visits and user interaction (using google analytics)</li>
+        </ul>
+
+        <p><strong>What I Learned:</strong><br>
+        Designing nostalgic layouts with modern code, managing GitHub Pages deployments and structuring interactive project views in JS.</p>
+
+        <p>
+          <a href="https://github.com/laurenHBpencil/laurenbrampton.com" target="_blank" style="display: inline-block; margin-top: 10px; margin-left: 10px; padding: 10px 15px; background-color: #000080; color: white; text-decoration: none; border-radius: 5px;">
+            View on GitHub
+          </a>
+        </p>
+      </div>
+
+      <div style="flex: 1 1 35%; min-width: 280px; padding-left: 20px;">
+        <img src="images/portfolio/site.png" alt="Portfolio Screenshot" style="width: 100%; border-radius: 5px;">
+        <p style="text-align: center;"><em>Screenshot: Homepage</em></p>
+      </div>
+    </div>
+    <h3>Gallery</h3><p><em>Click to enlarge photos</em> </p>
+  <div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
+    <img src="images/portfolio/allOpen.png" alt="All Sections Open" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/portfolio/pyOpen.png" alt="Project Tab Open onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/portfolio/enlargedPng.png" alt="Photo Enlarged On Click" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/portfolio/youtubeExample.png" alt="Youtube Video Displayed & Playable" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/portfolio/site.png" alt="Homepage" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+  </div>
+  `;
+  break;
 
       case 'pcosTracker':
          content.innerHTML = `
@@ -140,7 +183,7 @@
     </div>
   </div>
 
-  <h3>Gallery</h3>
+  <h3>Gallery</h3><p><em>Click to enlarge photos</em> </p>
 <div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
   <img src="images/pcosTracker/main.png" alt="Main Page" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
   <img src="images/pcosTracker/login.png" alt="Login Page" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
@@ -196,7 +239,7 @@ break;
     </div>
   </div>
 
-  <h3>Gallery</h3>
+  <h3>Gallery</h3><p><em>Click to enlarge photos</em> </p>
   <div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
     <img src="images/cluedo/cluedoui.png" alt="Main UI" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
     <img src="images/cluedo/cards.png" alt="Cards" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
