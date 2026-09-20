@@ -10,7 +10,6 @@ const WINDOW_META = {
   githubProjects: { label: 'GitHub Projects', icon: 'images/icons/folder.png' },
   achievements: { label: 'Achievements', icon: 'images/icons/certs.png' },
   recycle: { label: 'Recycle Bin', icon: 'images/icons/folder.png' },
-  playAllcats: { label: 'All Cats Must Die', icon: 'images/icons/cmd.png' },
   playCluedo: { label: 'Cluedo (Java)', icon: 'images/icons/cmd.png' },
   playTimber: { label: 'Custom Timber (SFML)', icon: 'images/icons/cmd.png' },
   playThomas: { label: 'Thomas Was Late (SFML)', icon: 'images/icons/cmd.png' },
