@@ -155,14 +155,53 @@
         user-select: none;
     }
 
-    .close-btn 
+    /* Window caption buttons (minimize / maximize / close) */
+    .caption-btn 
     {
         position: absolute;
-        right: 8px;
-        top: 2px;
+        top: 3px;
+        width: 18px;
+        height: 16px;
+        line-height: 14px;
+        text-align: center;
         cursor: pointer;
         font-weight: bold;
         color: white;
+        background-color: #245edb;
+        border: 1px solid #ffffff;
+        border-radius: 2px;
+        user-select: none;
+    }
+
+    .caption-btn:hover 
+    {
+        background-color: #4a7ef0;
+    }
+
+    .caption-close 
+    {
+        right: 6px;
+        background-color: #d24726;
+    }
+
+    .caption-close:hover 
+    {
+        background-color: #e8623b;
+    }
+
+    .caption-max 
+    {
+        right: 28px;
+    }
+
+    .caption-min 
+    {
+        right: 50px;
+    }
+
+    .window.maximized 
+    {
+        transform: none !important;
     }
 
     .icon:hover img 
@@ -171,18 +210,268 @@
         transform: scale(1.05);
         transition: all 0.2s ease;
     }
+
+    .icon:focus 
+    {
+        outline: 2px dotted #fff;
+        outline-offset: 2px;
+    }
+
+    /* Boot / welcome splash */
+    #boot-screen 
+    {
+        position: fixed;
+        inset: 0;
+        z-index: 5000;
+        background: radial-gradient(circle at center, #1a4bb3 0%, #000080 70%, #00004d 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: opacity 0.6s ease;
+    }
+
+    #boot-screen.hidden 
+    {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .boot-logo 
+    {
+        font-size: 64px;
+        letter-spacing: 2px;
+    }
+
+    .boot-logo span 
+    {
+        color: #ff8c00;
+    }
+
+    .boot-tagline 
+    {
+        font-size: 24px;
+        margin-bottom: 30px;
+        opacity: 0.85;
+    }
+
+    .boot-bar 
+    {
+        width: 240px;
+        height: 18px;
+        border: 2px solid #fff;
+        border-radius: 9px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .boot-bar-inner 
+    {
+        width: 0;
+        height: 100%;
+        background: repeating-linear-gradient(90deg, #ff8c00 0 12px, #ffb347 12px 20px);
+        animation: bootload 1.8s ease forwards;
+    }
+
+    @keyframes bootload 
+    {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+
+    .boot-copy 
+    {
+        margin-top: 14px;
+        font-size: 18px;
+        opacity: 0.8;
+    }
+
+    /* Start menu */
+    #start-menu 
+    {
+        position: fixed;
+        bottom: 40px;
+        left: 0;
+        width: 260px;
+        background: #ece9d8;
+        border: 2px solid #000080;
+        border-bottom: none;
+        box-shadow: 4px -4px 10px rgba(0, 0, 0, 0.4);
+        display: none;
+        z-index: 2000;
+        font-size: 18px;
+    }
+
+    #start-menu.open 
+    {
+        display: block;
+    }
+
+    .start-header 
+    {
+        background: linear-gradient(90deg, #245edb, #3a80f0);
+        color: white;
+        padding: 8px 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 20px;
+    }
+
+    .start-header img 
+    {
+        width: 36px;
+        height: 36px;
+        border-radius: 4px;
+        border: 1px solid #fff;
+    }
+
+    .start-items 
+    {
+        padding: 6px 0;
+    }
+
+    .start-item 
+    {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 14px;
+        cursor: pointer;
+        color: black;
+        text-decoration: none;
+    }
+
+    .start-item img 
+    {
+        width: 22px;
+        height: 22px;
+    }
+
+    .start-item:hover 
+    {
+        background: #245edb;
+        color: white;
+    }
+
+    #start-menu hr 
+    {
+        border: none;
+        border-top: 1px solid #aca899;
+        margin: 4px 10px;
+    }
+
+    /* Right-click context menu */
+    #context-menu 
+    {
+        position: fixed;
+        display: none;
+        background: #ece9d8;
+        border: 1px solid #000080;
+        box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+        z-index: 3000;
+        min-width: 170px;
+        font-size: 16px;
+    }
+
+    #context-menu.open 
+    {
+        display: block;
+    }
+
+    .context-item 
+    {
+        padding: 6px 16px;
+        cursor: pointer;
+        color: black;
+        text-decoration: none;
+        display: block;
+    }
+
+    .context-item:hover 
+    {
+        background: #245edb;
+        color: white;
+    }
+
+    #context-menu hr 
+    {
+        border: none;
+        border-top: 1px solid #aca899;
+        margin: 3px 6px;
+    }
+
+    /* Retro visitor counter */
+    #visitor-counter 
+    {
+        position: fixed;
+        right: 8px;
+        bottom: 48px;
+        background: #000;
+        color: #00ff66;
+        border: 2px ridge #444;
+        padding: 4px 8px;
+        font-size: 16px;
+        z-index: 1;
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    #visitor-counter .count 
+    {
+        font-family: 'Courier New', monospace;
+        letter-spacing: 2px;
+    }
+
+    /* Mobile */
     @media only screen and (max-width: 768px) 
     {
-        .window#about 
+        .window 
         {
-            position: fixed !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%);
-            width: 90vw;
-            height: 80vh;
+            width: 92vw !important;
+            max-width: 92vw;
+            left: 4vw !important;
+            top: 60px !important;
+            max-height: 75vh;
             overflow-y: auto;
-            z-index: 1000;
+        }
+
+        .window#explorer 
+        {
+            width: 96vw !important;
+            left: 2vw !important;
+            height: 82vh !important;
+        }
+
+        .desktop 
+        {
+            gap: 14px;
+        }
+
+        .taskbar 
+        {
+            font-size: 16px;
+        }
+
+        .taskbar-tab 
+        {
+            max-width: 110px;
+            font-size: 14px;
+        }
+
+        #start-menu 
+        {
+            width: 80vw;
+        }
+
+        .boot-logo 
+        {
+            font-size: 44px;
+        }
+
+        #visitor-counter 
+        {
+            font-size: 13px;
         }
     }
 

@@ -12,6 +12,8 @@ const WINDOW_META = {
 
 // Rising z-index so the most recently focused window sits on top
 let zCounter = 10;
+// Used to cascade newly opened windows so they don't stack exactly
+let cascadeStep = 0;
 
 // Open a window from a desktop icon (or focus it if already open)
 function toggleWindow(id) {
@@ -21,9 +23,20 @@ function toggleWindow(id) {
     focusWindow(id);
   } else {
     win.style.display = 'block';
+    cascadeWindow(win);
     addTaskbarTab(id);
     focusWindow(id);
+    saveOpenWindows();
   }
+}
+
+// Offset each newly opened window slightly so multiple windows don't overlap exactly
+function cascadeWindow(win) {
+  if (win.id === 'explorer' || win.classList.contains('maximized')) return;
+  const offset = 30 + (cascadeStep % 6) * 26;
+  win.style.left = offset + 'px';
+  win.style.top = (40 + (cascadeStep % 6) * 26) + 'px';
+  cascadeStep++;
 }
 
 // Bring a window to the front and mark it (and its tab) active
@@ -52,6 +65,7 @@ function closeWindow(id) {
   win.style.display = 'none';
   win.classList.remove('active-window');
   removeTaskbarTab(id);
+  saveOpenWindows();
 }
 
 // Add (or update) a taskbar tab for a window
@@ -115,8 +129,13 @@ function makeDraggable(el) {
   const titleBar = el.querySelector('.title-bar');
   let offsetX = 0, offsetY = 0, isDown = false;
 
+  addWindowControls(el);
+
   // Clicking anywhere in a window brings it to the front
   el.addEventListener('mousedown', () => focusWindow(el.id));
+
+  // Double-click the title bar to maximize / restore
+  titleBar.addEventListener('dblclick', () => toggleMaximize(el.id));
 
   titleBar.addEventListener('mousedown', (e) => {
     isDown = true;
@@ -155,16 +174,17 @@ function openExplorer(projectId) {
     case 'numworlds':
       content.innerHTML = `
     <h2>NumWorlds</h2>
-    <p><em>A commercial game released on Steam & mobile, developed during my internship at Black Pug Studio</em></p>
+    <p><em>A cozy, brain-teasing puzzle adventure released on Steam & mobile, developed at Black Pug Studio</em></p>
 
     <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
       <div style="flex: 1 1 60%; min-width: 300px;">
         <p><strong>Tools Used:</strong> Unreal Engine, C++</p>
         <p><strong>Role:</strong> Game Programmer Intern @ Black Pug Studio (Galway)</p>
         <p><strong>Description:</strong><br><br>
-        NumWorlds is a commercial title released on Steam and mobile featuring 200+ levels. I contributed to the game
-        during my internship at Black Pug Studio, working on gameplay and content implementation, testing and iteration
-        within an existing production project and team workflow.</p>
+        NumWorlds is a cozy, brain-teasing puzzle adventure. Chain numbers through the sunken city of Atlantis and the
+        age of dinosaurs, across 200+ handcrafted levels plus an endless mode to get lost in, all at your own pace.</p>
+        <p>I contributed to the game during my internship at Black Pug Studio, working on gameplay and content
+        implementation, testing and iteration within an existing production project and team workflow.</p>
 
         <p><strong>What I Did:</strong></p>
         <ul>
@@ -182,8 +202,28 @@ function openExplorer(projectId) {
           <a href="https://numworlds.com/" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 15px; background-color: #000080; color: white; text-decoration: none; border-radius: 5px;">
             View Game
           </a>
+          <a href="https://store.steampowered.com/app/4792970/NumWorlds/" target="_blank" style="display: inline-block; margin-top: 10px; margin-left: 10px; padding: 10px 15px; background-color: #1b2838; color: white; text-decoration: none; border-radius: 5px;">
+            View on Steam
+          </a>
         </p>
       </div>
+
+      <div style="flex: 1 1 35%; min-width: 280px; padding-left: 20px;">
+        <img src="images/numworlds/header.jpg" alt="NumWorlds" style="width: 100%; border-radius: 5px;">
+        <p style="text-align: center;"><em>Developed & published by Black Pug Studio</em></p>
+      </div>
+    </div>
+
+    <h3>Gallery</h3><p><em>Click to enlarge photos</em> </p>
+    <div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
+      <img src="images/numworlds/screenshot1.jpg" alt="NumWorlds Screenshot 1" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+      <img src="images/numworlds/screenshot2.jpg" alt="NumWorlds Screenshot 2" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+      <img src="images/numworlds/screenshot3.jpg" alt="NumWorlds Screenshot 3" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+      <img src="images/numworlds/screenshot4.jpg" alt="NumWorlds Screenshot 4" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+      <img src="images/numworlds/screenshot5.jpg" alt="NumWorlds Screenshot 5" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+      <img src="images/numworlds/screenshot6.jpg" alt="NumWorlds Screenshot 6" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+      <img src="images/numworlds/screenshot7.jpg" alt="NumWorlds Screenshot 7" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+      <img src="images/numworlds/screenshot8.jpg" alt="NumWorlds Screenshot 8" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
     </div>
   `;
       break;
@@ -203,7 +243,7 @@ function openExplorer(projectId) {
         <ul>
           <li>Build as you play level system with competitive sabotage mechanics</li>
           <li>Stylized pixel art with expressive animations and UI</li>
-          <li>Muttiple levels</li>
+          <li>Multiple levels</li>
           <li>Fun and impactful sound effects and music</li>
         </ul>
         <p><strong>What I Learned:</strong><br>
@@ -443,3 +483,173 @@ function showImageModal(src) {
 function closeImageModal() {
   document.getElementById('imageModal').style.display = 'none';
 }
+
+/* ============================================================
+   Window controls, Start menu, context menu, boot & extras
+   ============================================================ */
+
+// Inject minimize / maximize buttons into a window's title bar
+function addWindowControls(el) {
+  const titleBar = el.querySelector('.title-bar');
+  if (!titleBar) return;
+  const closeBtn = titleBar.querySelector('.close-btn');
+  if (closeBtn) closeBtn.classList.add('caption-btn', 'caption-close');
+
+  const maxBtn = document.createElement('span');
+  maxBtn.className = 'caption-btn caption-max';
+  maxBtn.textContent = '\u25A1'; // square
+  maxBtn.title = 'Maximize / Restore';
+  maxBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMaximize(el.id); });
+
+  const minBtn = document.createElement('span');
+  minBtn.className = 'caption-btn caption-min';
+  minBtn.textContent = '\u2013'; // dash
+  minBtn.title = 'Minimize';
+  minBtn.addEventListener('click', (e) => { e.stopPropagation(); minimizeWindow(el.id); });
+
+  titleBar.appendChild(minBtn);
+  titleBar.appendChild(maxBtn);
+}
+
+// Maximize a window to fill the screen (above the taskbar), or restore it
+function toggleMaximize(id) {
+  const win = document.getElementById(id);
+  focusWindow(id);
+  if (win.classList.contains('maximized')) {
+    win.classList.remove('maximized');
+    win.style.top = win.dataset.prevTop || '50px';
+    win.style.left = win.dataset.prevLeft || '50px';
+    win.style.width = win.dataset.prevWidth || '';
+    win.style.height = win.dataset.prevHeight || '';
+  } else {
+    win.dataset.prevTop = win.style.top;
+    win.dataset.prevLeft = win.style.left;
+    win.dataset.prevWidth = win.style.width;
+    win.dataset.prevHeight = win.style.height;
+    win.classList.add('maximized');
+    win.style.top = '0px';
+    win.style.left = '0px';
+    win.style.width = '100vw';
+    win.style.height = 'calc(100vh - 40px)';
+  }
+}
+
+/* ---- Start menu ---- */
+function toggleStartMenu(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('start-menu').classList.toggle('open');
+  hideContextMenu();
+}
+
+function hideStartMenu() {
+  document.getElementById('start-menu').classList.remove('open');
+}
+
+function startOpen(id) {
+  hideStartMenu();
+  toggleWindow(id);
+  focusWindow(id);
+}
+
+/* ---- Right-click context menu ---- */
+function showContextMenu(e) {
+  // Only on the desktop background, not inside windows / menus / taskbar
+  if (e.target.closest('.window') || e.target.closest('#start-menu') || e.target.closest('.taskbar')) return;
+  e.preventDefault();
+  const menu = document.getElementById('context-menu');
+  const x = Math.min(e.clientX, window.innerWidth - 190);
+  const y = Math.min(e.clientY, window.innerHeight - 170);
+  menu.style.left = x + 'px';
+  menu.style.top = y + 'px';
+  menu.classList.add('open');
+}
+
+function hideContextMenu() {
+  document.getElementById('context-menu').classList.remove('open');
+}
+
+document.addEventListener('contextmenu', showContextMenu);
+document.addEventListener('click', () => { hideStartMenu(); hideContextMenu(); });
+
+/* ---- Keyboard support ---- */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    hideStartMenu();
+    hideContextMenu();
+    const active = document.querySelector('.window.active-window');
+    if (active) closeWindow(active.id);
+  }
+});
+
+/* ---- Desktop icon accessibility (keyboard focus + Enter/Space) ---- */
+document.querySelectorAll('.desktop .icon').forEach((icon) => {
+  icon.setAttribute('tabindex', '0');
+  icon.setAttribute('role', 'button');
+  icon.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      icon.click();
+    }
+  });
+});
+
+/* ---- Remember which windows were open (localStorage) ---- */
+function saveOpenWindows() {
+  try {
+    const open = [];
+    document.querySelectorAll('.window').forEach((w) => {
+      if (w.id !== 'explorer' && w.id !== 'imageModal' &&
+        w.style.display !== 'none' && w.style.display !== '') {
+        open.push(w.id);
+      }
+    });
+    localStorage.setItem('openWindows', JSON.stringify(open));
+  } catch (err) { /* storage unavailable */ }
+}
+
+function restoreOpenWindows() {
+  try {
+    const open = JSON.parse(localStorage.getItem('openWindows') || '[]');
+    open.forEach((id) => {
+      const win = document.getElementById(id);
+      if (win) {
+        win.style.display = 'block';
+        cascadeWindow(win);
+        addTaskbarTab(id);
+        focusWindow(id);
+      }
+    });
+  } catch (err) { /* storage unavailable */ }
+}
+
+/* ---- Retro visitor counter (per-browser, stored locally) ---- */
+function initVisitorCounter() {
+  let count = parseInt(localStorage.getItem('visitCount') || '0', 10) + 1;
+  try { localStorage.setItem('visitCount', count); } catch (err) { /* ignore */ }
+  const el = document.createElement('div');
+  el.id = 'visitor-counter';
+  el.innerHTML = 'Visitor <span class="count">' + String(count).padStart(6, '0') + '</span>';
+  el.title = 'Your visits to this site';
+  document.body.appendChild(el);
+}
+
+/* ---- Boot / welcome splash ---- */
+function initBootScreen() {
+  const boot = document.getElementById('boot-screen');
+  if (!boot) return;
+  // Only show the splash once per browsing session
+  if (sessionStorage.getItem('booted')) {
+    boot.remove();
+    return;
+  }
+  sessionStorage.setItem('booted', '1');
+  setTimeout(() => {
+    boot.classList.add('hidden');
+    setTimeout(() => boot.remove(), 700);
+  }, 2000);
+}
+
+/* ---- Init ---- */
+initBootScreen();
+initVisitorCounter();
+restoreOpenWindows();

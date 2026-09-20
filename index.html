@@ -4,7 +4,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lauren's Desktop Portfolio</title>
+  <title>Lauren Brampton | Game & Software Developer</title>
+
+  <!-- SEO -->
+  <meta name="description"
+    content="Lauren Brampton — Games Design & Development student and Game Programmer specialising in C++, C#, Unreal Engine and Unity. Explore my projects, skills, experience and CV on my Windows XP themed portfolio." />
+  <meta name="author" content="Lauren Brampton" />
+  <meta name="keywords"
+    content="Lauren Brampton, game developer, software developer, Unreal Engine, C++, C#, Unity, game programmer, portfolio, TUS Thurles, Black Pug Studio" />
+  <link rel="canonical" href="https://laurenbrampton.com/" />
+  <meta name="theme-color" content="#000080" />
+
+  <!-- Open Graph (LinkedIn, Facebook, Discord) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Lauren Brampton | Game & Software Developer" />
+  <meta property="og:description"
+    content="Games Design & Development student and Game Programmer specialising in C++, C#, Unreal Engine and Unity. Explore my projects, skills, experience and CV." />
+  <meta property="og:url" content="https://laurenbrampton.com/" />
+  <meta property="og:image" content="https://laurenbrampton.com/images/portfolio/site.png" />
+  <meta property="og:site_name" content="Lauren Brampton's Portfolio" />
+
+  <!-- Twitter/X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Lauren Brampton | Game & Software Developer" />
+  <meta name="twitter:description"
+    content="Games Design & Development student and Game Programmer specialising in C++, C#, Unreal Engine and Unity." />
+  <meta name="twitter:image" content="https://laurenbrampton.com/images/portfolio/site.png" />
+
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
   <!-- Linking style sheet -->
@@ -18,6 +44,16 @@
 
 
 <body>
+  <!-- XP-style boot / welcome splash -->
+  <div id="boot-screen">
+    <div class="boot-logo">Lauren<span>XP</span></div>
+    <div class="boot-tagline">Game &amp; Software Developer</div>
+    <div class="boot-bar">
+      <div class="boot-bar-inner"></div>
+    </div>
+    <div class="boot-copy">Loading portfolio&hellip;</div>
+  </div>
+
   <!-- Desktop Icons w/ XP Icons -->
   <div class="desktop">
     <div class="icon" onclick="toggleWindow('about')">
@@ -72,7 +108,7 @@
       <p>I have spent 19 years in Ireland (originally from England).</p>
       <p>From a young age I have always loved playing video games, my dad was always keeping my brother and I up to date
         with the newest consoles & games.
-        From the age of 4, my fasination with video games grew & when lockdown hit, bored in my room I found myself
+        From the age of 4, my fascination with video games grew & when lockdown hit, bored in my room I found myself
         learning java to make plugins for minecraft or taking apart old computers to see how they work!
         Since then I knew I was meant to be in the IT workforce. Now I am my families personal computer tech, debugging
         issues and even fixing phone screens!
@@ -234,7 +270,9 @@
     <div class="title-bar">Contact <span class="close-btn" onclick="closeWindow('contact')">X</span></div>
     <div>
       <p>Email: <a href="mailto:laurenbrampton2003@gmail.com">laurenbrampton2003@gmail.com</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/lauren-h-brampton-548680310">View Profile</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/lauren-h-brampton-548680310" target="_blank">View Profile</a>
+      </p>
+      <p>GitHub: <a href="https://github.com/laurenHBpencil" target="_blank">laurenHBpencil</a></p>
       <p>Location: Templemore Co.Tipperary/Bantry Co.Cork</p>
       <p>Will commute/relocate if needed</p>
     </div>
@@ -242,9 +280,43 @@
 
   <!-- Taskbar -->
   <div class="taskbar">
-    <div class="start-btn">Start</div>
+    <div class="start-btn" id="start-btn" onclick="toggleStartMenu(event)">Start</div>
     <div id="taskbar-tabs"></div>
     <div id="clock"></div>
+  </div>
+
+  <!-- Start Menu -->
+  <div id="start-menu">
+    <div class="start-header">
+      <img src="images/about/me.jpg" alt="Lauren Brampton">
+      <span>Lauren Brampton</span>
+    </div>
+    <div class="start-items">
+      <div class="start-item" onclick="startOpen('about')"><img src="images/icons/info.png" alt="">About Me</div>
+      <div class="start-item" onclick="startOpen('projects')"><img src="images/icons/cmd.png" alt="">Projects</div>
+      <div class="start-item" onclick="startOpen('skills')"><img src="images/icons/settings.png" alt="">Skills</div>
+      <div class="start-item" onclick="startOpen('education')"><img src="images/icons/certs.png" alt="">Education &amp;
+        Certs</div>
+      <div class="start-item" onclick="startOpen('experience')"><img src="images/icons/experience.png"
+          alt="">Experience</div>
+      <div class="start-item" onclick="startOpen('cv')"><img src="images/icons/note.png" alt="">CV</div>
+      <div class="start-item" onclick="startOpen('contact')"><img src="images/icons/folder.png" alt="">Contact</div>
+      <hr>
+      <a class="start-item" href="https://github.com/laurenHBpencil" target="_blank"><img src="images/icons/cmd.png"
+          alt="">GitHub</a>
+      <a class="start-item" href="https://www.linkedin.com/in/lauren-h-brampton-548680310" target="_blank"><img
+          src="images/icons/folder.png" alt="">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- Right-click desktop context menu -->
+  <div id="context-menu">
+    <div class="context-item" onclick="location.reload()">Refresh</div>
+    <div class="context-item" onclick="toggleWindow('about'); hideContextMenu()">Open About Me</div>
+    <div class="context-item" onclick="toggleWindow('contact'); hideContextMenu()">Open Contact</div>
+    <hr>
+    <a class="context-item" href="https://github.com/laurenHBpencil/laurenbrampton.com" target="_blank">View Source on
+      GitHub</a>
   </div>
 
   <!-- Image Modal -->
