@@ -1,12 +1,103 @@
-//Open/close window
+// Metadata for each window (label + icon) used to build taskbar tabs
+const WINDOW_META = {
+  about: { label: 'About Me', icon: 'images/icons/info.png' },
+  projects: { label: 'Projects', icon: 'images/icons/cmd.png' },
+  skills: { label: 'Skills', icon: 'images/icons/settings.png' },
+  education: { label: 'Education & Certs', icon: 'images/icons/certs.png' },
+  experience: { label: 'Experience', icon: 'images/icons/experience.png' },
+  cv: { label: 'CV', icon: 'images/icons/note.png' },
+  contact: { label: 'Contact', icon: 'images/icons/folder.png' },
+  explorer: { label: 'Explorer', icon: 'images/icons/cmd.png' }
+};
+
+// Rising z-index so the most recently focused window sits on top
+let zCounter = 10;
+
+// Open a window from a desktop icon (or focus it if already open)
 function toggleWindow(id) {
   const win = document.getElementById(id);
-  win.style.display = win.style.display === 'none' ? 'block' : 'none';
+  const isVisible = win.style.display !== 'none' && win.style.display !== '';
+  if (isVisible) {
+    focusWindow(id);
+  } else {
+    win.style.display = 'block';
+    addTaskbarTab(id);
+    focusWindow(id);
+  }
 }
 
-//Close button func
+// Bring a window to the front and mark it (and its tab) active
+function focusWindow(id) {
+  const win = document.getElementById(id);
+  win.style.display = 'block';
+  zCounter += 1;
+  win.style.zIndex = zCounter;
+  document.querySelectorAll('.window').forEach(w => w.classList.remove('active-window'));
+  win.classList.add('active-window');
+  setActiveTab(id);
+}
+
+// Minimise: hide the window but keep its taskbar tab
+function minimizeWindow(id) {
+  const win = document.getElementById(id);
+  win.style.display = 'none';
+  win.classList.remove('active-window');
+  const tab = document.getElementById('tab-' + id);
+  if (tab) tab.classList.remove('active');
+}
+
+// Close button: hide the window and remove its taskbar tab
 function closeWindow(id) {
-  document.getElementById(id).style.display = 'none';
+  const win = document.getElementById(id);
+  win.style.display = 'none';
+  win.classList.remove('active-window');
+  removeTaskbarTab(id);
+}
+
+// Add (or update) a taskbar tab for a window
+function addTaskbarTab(id, customLabel) {
+  const tabs = document.getElementById('taskbar-tabs');
+  const meta = WINDOW_META[id] || { label: id, icon: '' };
+  const label = customLabel || meta.label;
+  let tab = document.getElementById('tab-' + id);
+  if (tab) {
+    tab.querySelector('.tab-label').textContent = label;
+    tab.title = label;
+    return tab;
+  }
+  tab = document.createElement('div');
+  tab.className = 'taskbar-tab';
+  tab.id = 'tab-' + id;
+  tab.title = label;
+  tab.innerHTML = `${meta.icon ? `<img src="${meta.icon}" alt="">` : ''}<span class="tab-label">${label}</span>`;
+  tab.addEventListener('click', () => onTabClick(id));
+  tabs.appendChild(tab);
+  return tab;
+}
+
+// Remove a taskbar tab
+function removeTaskbarTab(id) {
+  const tab = document.getElementById('tab-' + id);
+  if (tab) tab.remove();
+}
+
+// Highlight the active window's tab
+function setActiveTab(id) {
+  document.querySelectorAll('.taskbar-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById('tab-' + id);
+  if (tab) tab.classList.add('active');
+}
+
+// Clicking a tab: minimise if it's the active window, otherwise focus/restore it
+function onTabClick(id) {
+  const win = document.getElementById(id);
+  const isVisible = win.style.display !== 'none' && win.style.display !== '';
+  const isActive = win.classList.contains('active-window');
+  if (isVisible && isActive) {
+    minimizeWindow(id);
+  } else {
+    focusWindow(id);
+  }
 }
 
 //Clock update
@@ -24,11 +115,13 @@ function makeDraggable(el) {
   const titleBar = el.querySelector('.title-bar');
   let offsetX = 0, offsetY = 0, isDown = false;
 
+  // Clicking anywhere in a window brings it to the front
+  el.addEventListener('mousedown', () => focusWindow(el.id));
+
   titleBar.addEventListener('mousedown', (e) => {
     isDown = true;
     offsetX = e.clientX - el.offsetLeft;
     offsetY = e.clientY - el.offsetTop;
-    el.style.zIndex = parseInt(el.style.zIndex || 1) + 1;
   });
 
   document.addEventListener('mouseup', () => isDown = false);
@@ -335,6 +428,9 @@ function openExplorer(projectId) {
   }
 
   explorer.style.display = 'block';
+  // Label the taskbar tab with the current project's name
+  addTaskbarTab('explorer', titles[projectId] || 'Explorer');
+  focusWindow('explorer');
 }
 //Show images enlarged
 function showImageModal(src) {
