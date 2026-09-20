@@ -732,9 +732,32 @@ function initGameFrames(win) {
   if (!win) return;
   win.querySelectorAll('iframe[data-src]:not([data-loaded])').forEach((frame) => {
     frame.setAttribute('data-loaded', '1');
-    frame.addEventListener('load', () => handleGameLoad(frame));
-    frame.src = frame.getAttribute('data-src');
+    const src = frame.getAttribute('data-src');
+    // Only load the iframe if the build actually exists. On local file://
+    // previews fetch() rejects, and on the live site a missing build returns
+    // 404 — in both cases we keep the friendly "coming soon" placeholder
+    // instead of showing a blank/broken frame.
+    fetch(src, { method: 'HEAD' })
+      .then((res) => {
+        if (res.ok) {
+          frame.addEventListener('load', () => handleGameLoad(frame));
+          frame.style.display = 'block';
+          frame.src = src;
+        } else {
+          markGameMissing(frame);
+        }
+      })
+      .catch(() => markGameMissing(frame));
   });
+}
+
+// No build present yet: hide the frame and show the placeholder.
+function markGameMissing(frame) {
+  const embed = frame.closest('.game-embed');
+  if (!embed) return;
+  frame.style.display = 'none';
+  const placeholder = embed.querySelector('.game-placeholder');
+  if (placeholder) placeholder.style.display = 'flex';
 }
 
 // After an iframe loads, decide whether it's the real game or a missing build.
@@ -753,6 +776,7 @@ function handleGameLoad(frame) {
     // Cross-origin (shouldn't happen for same-site builds) — assume it loaded fine.
   }
   if (placeholder) placeholder.style.display = missing ? 'flex' : 'none';
+  if (missing) frame.style.display = 'none';
   embed.classList.toggle('game-loaded', !missing);
 }
 
