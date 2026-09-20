@@ -6,7 +6,10 @@ const WINDOW_META = {
   education: { label: 'Education & Certs', icon: 'images/icons/certs.png' },
   experience: { label: 'Experience', icon: 'images/icons/experience.png' },
   cv: { label: 'CV', icon: 'images/icons/note.png' },
-  contact: { label: 'Contact', icon: 'images/icons/folder.png' },
+  contact: { label: 'Contact', icon: 'images/icons/contact.png' },
+  githubProjects: { label: 'GitHub Projects', icon: 'images/icons/folder.png' },
+  achievements: { label: 'Achievements', icon: 'images/icons/certs.png' },
+  recycle: { label: 'Recycle Bin', icon: 'images/icons/folder.png' },
   explorer: { label: 'Explorer', icon: 'images/icons/cmd.png' }
 };
 
@@ -296,6 +299,9 @@ function openExplorer(projectId) {
         Designing nostalgic layouts with modern code, managing GitHub Pages deployments and structuring interactive project views in JS.</p>
 
         <p>
+          <a href="https://laurenbrampton.com" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 15px; background-color: #008000; color: white; text-decoration: none; border-radius: 5px;">
+            View Live Site
+          </a>
           <a href="https://github.com/laurenHBpencil/laurenbrampton.com" target="_blank" style="display: inline-block; margin-top: 10px; margin-left: 10px; padding: 10px 15px; background-color: #000080; color: white; text-decoration: none; border-radius: 5px;">
             View on GitHub
           </a>
@@ -581,17 +587,79 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* ---- Desktop icon accessibility (keyboard focus + Enter/Space) ---- */
+/* ---- Desktop icons: double-click to open (single-tap on touch), keyboard support ---- */
+// Perform an icon's action: open its window or follow its link
+function activateIcon(icon) {
+  const winId = icon.getAttribute('data-window');
+  const href = icon.getAttribute('data-href');
+  if (winId) {
+    toggleWindow(winId);
+  } else if (href) {
+    window.open(href, '_blank', 'noopener');
+  }
+}
+
+// Touch devices use a single tap; mouse uses double-click (true to XP)
+const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+
 document.querySelectorAll('.desktop .icon').forEach((icon) => {
   icon.setAttribute('tabindex', '0');
   icon.setAttribute('role', 'button');
+
+  if (isTouch) {
+    icon.addEventListener('click', () => activateIcon(icon));
+  } else {
+    icon.addEventListener('dblclick', () => activateIcon(icon));
+    // Single click just selects/highlights the icon (like XP)
+    icon.addEventListener('click', () => {
+      document.querySelectorAll('.desktop .icon').forEach((i) => i.classList.remove('selected'));
+      icon.classList.add('selected');
+    });
+  }
+
   icon.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      icon.click();
+      activateIcon(icon);
     }
   });
 });
+
+/* ---- Contact form (via FormSubmit.co AJAX — posts to email, no backend) ---- */
+function sendContactForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const status = document.getElementById('contact-status');
+  const btn = form.querySelector('button[type="submit"]');
+  const data = {
+    name: form.elements['name'].value,
+    email: form.elements['email'].value,
+    message: form.elements['message'].value,
+    _subject: 'New message from laurenbrampton.com'
+  };
+  status.textContent = 'Sending…';
+  status.className = 'form-status';
+  btn.disabled = true;
+
+  fetch('https://formsubmit.co/ajax/laurenbrampton2003@gmail.com', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(data)
+  })
+    .then((res) => res.json())
+    .then(() => {
+      status.textContent = 'Thanks! Your message has been sent. \u{1F60A}';
+      status.className = 'form-status success';
+      form.reset();
+    })
+    .catch(() => {
+      status.textContent = 'Something went wrong — please email me directly instead.';
+      status.className = 'form-status error';
+    })
+    .finally(() => { btn.disabled = false; });
+
+  return false;
+}
 
 /* ---- Remember which windows were open (localStorage) ---- */
 function saveOpenWindows() {

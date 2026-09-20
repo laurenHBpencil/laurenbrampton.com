@@ -116,6 +116,24 @@
         height: 48px;
     }
 
+    .icon .emoji-icon 
+    {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        margin: 0 auto;
+        font-size: 40px;
+        line-height: 1;
+    }
+
+    .icon.selected 
+    {
+        background: rgba(49, 106, 197, 0.4);
+        outline: 1px dotted rgba(255, 255, 255, 0.7);
+    }
+
     a 
     {
         color: black;
@@ -473,5 +491,136 @@
         {
             font-size: 13px;
         }
+    }
+
+    /* GitHub Projects folder grid */
+    .folder-grid 
+    {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+        padding: 6px 2px;
+    }
+
+    .folder-item 
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+        padding: 8px 4px;
+        color: black;
+        text-decoration: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        font-size: 15px;
+    }
+
+    .folder-item img 
+    {
+        width: 40px;
+        height: 40px;
+    }
+
+    .folder-item:hover 
+    {
+        background: #cfe0ff;
+        border-color: #245edb;
+    }
+
+    .folder-item.folder-profile 
+    {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        justify-content: center;
+        background: #000080;
+        color: white;
+    }
+
+    .folder-item.folder-profile:hover 
+    {
+        background: #245edb;
+    }
+
+    /* Achievement badges */
+    .badge 
+    {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        background: #fffdf3;
+        border: 1px solid #aca899;
+        border-left: 5px solid #ff8c00;
+        border-radius: 4px;
+        padding: 10px;
+        margin: 8px 0;
+        font-size: 15px;
+        text-align: left;
+    }
+
+    .badge-icon 
+    {
+        font-size: 34px;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    /* XP-style contact form */
+    .xp-form 
+    {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .xp-form input,
+    .xp-form textarea 
+    {
+        font-family: 'VT323', monospace;
+        font-size: 17px;
+        padding: 6px 8px;
+        border: 2px inset #fff;
+        background: #fff;
+        color: black;
+        width: 100%;
+    }
+
+    .xp-form button 
+    {
+        align-self: flex-start;
+        font-family: 'VT323', monospace;
+        font-size: 17px;
+        padding: 4px 20px;
+        background: #ece9d8;
+        border: 2px outset #f5f4ea;
+        cursor: pointer;
+    }
+
+    .xp-form button:hover 
+    {
+        background: #f5f4ea;
+    }
+
+    .xp-form button:disabled 
+    {
+        opacity: 0.6;
+        cursor: default;
+    }
+
+    .form-status 
+    {
+        font-size: 16px;
+        min-height: 20px;
+    }
+
+    .form-status.success 
+    {
+        color: #1a7d1a;
+    }
+
+    .form-status.error 
+    {
+        color: #c0392b;
     }
 

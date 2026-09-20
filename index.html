@@ -54,41 +54,61 @@
     <div class="boot-copy">Loading portfolio&hellip;</div>
   </div>
 
-  <!-- Desktop Icons w/ XP Icons -->
+  <!-- Desktop Icons w/ XP Icons (double-click to open, single-tap on touch) -->
   <div class="desktop">
-    <div class="icon" onclick="toggleWindow('about')">
-      <img src="images/icons/info.png" alt="About">
+    <div class="icon" data-window="about">
+      <img src="images/icons/info.png" alt="About Me">
       <div>About Me</div>
     </div>
 
-    <div class="icon" onclick="toggleWindow('projects')">
+    <div class="icon" data-window="projects">
       <img src="images/icons/cmd.png" alt="Projects">
       <div>Projects</div>
     </div>
 
-    <div class="icon" onclick="toggleWindow('skills')">
+    <div class="icon" data-window="githubProjects">
+      <img src="images/icons/folder.png" alt="GitHub Projects">
+      <div>GitHub Projects</div>
+    </div>
+
+    <div class="icon" data-window="skills">
       <img src="images/icons/settings.png" alt="Skills">
       <div>Skills</div>
     </div>
 
-    <div class="icon" onclick="toggleWindow('education')">
-      <img src="images/icons/certs.png" alt="Education">
+    <div class="icon" data-window="education">
+      <img src="images/icons/certs.png" alt="Education & Certs">
       <div>Education & Certs</div>
     </div>
 
-    <div class="icon" onclick="toggleWindow('experience')">
+    <div class="icon" data-window="experience">
       <img src="images/icons/experience.png" alt="Experience">
       <div>Experience</div>
     </div>
 
-    <div class="icon" onclick="toggleWindow('cv')">
+    <div class="icon" data-window="achievements">
+      <span class="emoji-icon" role="img" aria-label="Achievements">&#127942;</span>
+      <div>Achievements</div>
+    </div>
+
+    <div class="icon" data-window="cv">
       <img src="images/icons/note.png" alt="CV">
       <div>CV</div>
     </div>
 
-    <div class="icon" onclick="toggleWindow('contact')">
-      <img src="images/icons/folder.png" alt="Contact">
+    <div class="icon" data-window="contact">
+      <img src="images/icons/contact.png" alt="Contact">
       <div>Contact</div>
+    </div>
+
+    <div class="icon" data-href="https://www.linkedin.com/in/lauren-h-brampton-548680310">
+      <img src="images/icons/linkedin.png" alt="LinkedIn">
+      <div>LinkedIn</div>
+    </div>
+
+    <div class="icon" data-window="recycle">
+      <span class="emoji-icon" role="img" aria-label="Recycle Bin">&#128465;&#65039;</span>
+      <div>Recycle Bin</div>
     </div>
   </div>
 
@@ -275,6 +295,110 @@
       <p>GitHub: <a href="https://github.com/laurenHBpencil" target="_blank">laurenHBpencil</a></p>
       <p>Location: Templemore Co.Tipperary/Bantry Co.Cork</p>
       <p>Will commute/relocate if needed</p>
+
+      <hr>
+      <p><strong>Send me a message:</strong></p>
+      <form id="contact-form" class="xp-form" onsubmit="return sendContactForm(event)">
+        <input type="text" name="name" placeholder="Your name" required autocomplete="name">
+        <input type="email" name="email" placeholder="Your email" required autocomplete="email">
+        <textarea name="message" rows="4" placeholder="Your message" required></textarea>
+        <button type="submit">Send</button>
+        <div id="contact-status" class="form-status"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Window GitHub Projects (folder of shortcuts) -->
+  <div class="window" id="githubProjects" style="display:none; width: 460px;">
+    <div class="title-bar">GitHub Projects <span class="close-btn" onclick="closeWindow('githubProjects')">X</span></div>
+    <div style="max-height: 70vh; overflow-y: auto;">
+      <p style="margin: 6px 0;"><em>My repositories &amp; live projects — double-click... or just click a shortcut.</em>
+      </p>
+      <div class="folder-grid">
+        <a class="folder-item" href="https://laurenbrampton.com" target="_blank">
+          <img src="images/icons/info.png" alt=""><span>Portfolio Site (Live)</span>
+        </a>
+        <a class="folder-item" href="https://store.steampowered.com/app/4792970/NumWorlds/" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>NumWorlds (Steam)</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/CluedoTopcat" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>Cluedo (Java)</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/PCOSTracker" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>PCOS Tracker</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/Python-Client-Server-Numbers" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>Client-Server (Python)</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/SFML-Custom-Timber" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>Custom Timber (SFML)</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/CustomThomasWasLate" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>Thomas Was Late (SFML)</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/Infix-to-Postfix-Evaluator" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>Infix &rarr; Postfix</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/Alchemical-Warfare" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>Alchemical Warfare</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/Java-TicTacToe" target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>Tic-Tac-Toe (Java)</span>
+        </a>
+        <a class="folder-item" href="https://github.com/laurenHBpencil/Statistics-and-Probability-Project-2025"
+          target="_blank">
+          <img src="images/icons/cmd.png" alt=""><span>Stats &amp; Probability</span>
+        </a>
+        <a class="folder-item folder-profile" href="https://github.com/laurenHBpencil" target="_blank">
+          <img src="images/icons/folder.png" alt=""><span>View Full GitHub Profile</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Window Achievements -->
+  <div class="window" id="achievements" style="display:none; width: 380px;">
+    <div class="title-bar">Achievements <span class="close-btn" onclick="closeWindow('achievements')">X</span></div>
+    <div style="max-height: 70vh; overflow-y: auto;">
+      <div class="badge">
+        <span class="badge-icon">&#127942;</span>
+        <div>
+          <strong>"Most Commended" — Games Fleadh 2025</strong><br>
+          <em>All Cats Must Die</em> won the Most Commended Game award at Ireland's national student games festival.
+        </div>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">&#127918;</span>
+        <div>
+          <strong>Shipped a commercial title</strong><br>
+          Contributed to <em>NumWorlds</em> (Steam &amp; mobile, 200+ levels) as a Game Programmer Intern at Black Pug
+          Studio.
+        </div>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">&#127891;</span>
+        <div>
+          <strong>Epic Games Certifications</strong><br>
+          Intro to Game Design, Unreal Engine Fundamentals, and Fundamentals of Level Design w/ Unreal.
+        </div>
+      </div>
+      <div class="badge">
+        <span class="badge-icon">&#129504;</span>
+        <div>
+          <strong>Charity Skydive (2023)</strong><br>
+          Completed a charity skydive to raise funds and awareness.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Window Recycle Bin -->
+  <div class="window" id="recycle" style="display:none; width: 320px;">
+    <div class="title-bar">Recycle Bin <span class="close-btn" onclick="closeWindow('recycle')">X</span></div>
+    <div style="text-align: center; padding: 10px;">
+      <div style="font-size: 60px;">&#128465;&#65039;</div>
+      <p><strong>The Recycle Bin is empty.</strong></p>
+      <p><em>No abandoned projects here — I finish what I start! &#128568;</em></p>
     </div>
   </div>
 
@@ -294,6 +418,10 @@
     <div class="start-items">
       <div class="start-item" onclick="startOpen('about')"><img src="images/icons/info.png" alt="">About Me</div>
       <div class="start-item" onclick="startOpen('projects')"><img src="images/icons/cmd.png" alt="">Projects</div>
+      <div class="start-item" onclick="startOpen('githubProjects')"><img src="images/icons/folder.png" alt="">GitHub
+        Projects</div>
+      <div class="start-item" onclick="startOpen('achievements')"><img src="images/icons/certs.png"
+          alt="">Achievements</div>
       <div class="start-item" onclick="startOpen('skills')"><img src="images/icons/settings.png" alt="">Skills</div>
       <div class="start-item" onclick="startOpen('education')"><img src="images/icons/certs.png" alt="">Education &amp;
         Certs</div>
