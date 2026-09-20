@@ -106,6 +106,27 @@
       <div>LinkedIn</div>
     </div>
 
+    <!-- Playable game icons (each opens its own window with an embedded, playable build) -->
+    <div class="icon" data-window="playAllcats">
+      <span class="emoji-icon" role="img" aria-label="Play All Cats Must Die">&#128049;</span>
+      <div>All Cats (Play)</div>
+    </div>
+
+    <div class="icon" data-window="playCluedo">
+      <span class="emoji-icon" role="img" aria-label="Play Cluedo">&#128373;&#65039;</span>
+      <div>Cluedo (Play)</div>
+    </div>
+
+    <div class="icon" data-window="playTimber">
+      <span class="emoji-icon" role="img" aria-label="Play Custom Timber">&#127794;</span>
+      <div>Timber (Play)</div>
+    </div>
+
+    <div class="icon" data-window="playThomas">
+      <span class="emoji-icon" role="img" aria-label="Play Thomas Was Late">&#128642;</span>
+      <div>Thomas Was Late (Play)</div>
+    </div>
+
     <div class="icon" data-window="recycle">
       <span class="emoji-icon" role="img" aria-label="Recycle Bin">&#128465;&#65039;</span>
       <div>Recycle Bin</div>
@@ -402,6 +423,109 @@
     </div>
   </div>
 
+  <!-- ============================================================
+       PLAYABLE GAME WINDOWS (embedded builds)
+       Each auto-loads its build from the documented path the first
+       time the window is opened. Until a build is dropped in, a
+       friendly "coming soon" placeholder is shown.
+       ============================================================ -->
+
+  <!-- All Cats Must Die (Construct 3 HTML5 export) -->
+  <div class="window game-window" id="playAllcats" style="display:none; width: 74vw; height: 76vh; top: 5%; left: 12%;">
+    <div class="title-bar">All Cats Must Die <span class="close-btn" onclick="closeWindow('playAllcats')">X</span></div>
+    <div class="game-window-body">
+      <div class="game-toolbar">
+        <button type="button" onclick="gameFullscreen('playAllcats')">&#9974; Fullscreen</button>
+        <a href="https://www.youtube.com/watch?v=DnbOiE1-alE" target="_blank">Watch trailer instead</a>
+      </div>
+      <div class="game-embed">
+        <!-- TODO (All Cats): In Construct 3 choose "Menu > Project > Export > Web (HTML5)".
+             Unzip the export into  games/allcats/  so that  games/allcats/index.html  exists.
+             It will then auto-load in this iframe. -->
+        <iframe title="All Cats Must Die" data-src="games/allcats/index.html"
+          allow="fullscreen; autoplay; gamepad; keyboard-map" loading="lazy"></iframe>
+        <div class="game-placeholder">
+          <div class="game-placeholder-emoji">&#128049;</div>
+          <p><strong>Playable build coming soon!</strong></p>
+          <p>Export the Construct 3 game as <em>Web (HTML5)</em> and drop it into<br>
+            <code>games/allcats/</code> (must contain <code>index.html</code>).<br>It will load right here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cluedo (Java Swing via CheerpJ) -->
+  <div class="window game-window" id="playCluedo" style="display:none; width: 74vw; height: 76vh; top: 5%; left: 12%;">
+    <div class="title-bar">Cluedo (Java) <span class="close-btn" onclick="closeWindow('playCluedo')">X</span></div>
+    <div class="game-window-body">
+      <div class="game-toolbar">
+        <button type="button" id="cluedo-launch" onclick="launchCluedo()">&#9654; Launch Cluedo</button>
+        <button type="button" onclick="gameFullscreen('playCluedo')">&#9974; Fullscreen</button>
+        <a href="https://github.com/laurenHBpencil/CluedoTopcat" target="_blank">View source on GitHub</a>
+      </div>
+      <div class="game-embed" id="cluedo-embed">
+        <!-- TODO (Cluedo): Place the built runnable JAR at  games/cluedo/CluedoTopcat.jar
+             CheerpJ mounts the site root at /app/, so it runs from  /app/games/cluedo/CluedoTopcat.jar
+             (Update the path in launchCluedo() in script.js if you name the jar differently.) -->
+        <div class="game-placeholder" id="cluedo-placeholder">
+          <div class="game-placeholder-emoji">&#128373;&#65039;</div>
+          <p><strong>Runs in your browser via CheerpJ</strong></p>
+          <p>Click <strong>&#9654; Launch Cluedo</strong> to start the Java app.<br>
+            (Requires the jar at <code>games/cluedo/CluedoTopcat.jar</code>.)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Timber (SFML C++ compiled to WebAssembly via Emscripten) -->
+  <div class="window game-window" id="playTimber" style="display:none; width: 74vw; height: 76vh; top: 5%; left: 12%;">
+    <div class="title-bar">Custom Timber (SFML) <span class="close-btn" onclick="closeWindow('playTimber')">X</span></div>
+    <div class="game-window-body">
+      <div class="game-toolbar">
+        <button type="button" onclick="gameFullscreen('playTimber')">&#9974; Fullscreen</button>
+        <a href="https://github.com/laurenHBpencil/SFML-Custom-Timber" target="_blank">View source on GitHub</a>
+      </div>
+      <div class="game-embed">
+        <!-- TODO (Timber): Build the SFML project to WebAssembly with Emscripten (emsdk + SFML for web),
+             producing an index.html + .js + .wasm + .data. Drop them into  games/timber/  so that
+             games/timber/index.html  exists. It will then auto-load in this iframe. -->
+        <iframe title="Custom Timber" data-src="games/timber/index.html" allow="fullscreen; autoplay"
+          loading="lazy"></iframe>
+        <div class="game-placeholder">
+          <div class="game-placeholder-emoji">&#127794;</div>
+          <p><strong>Playable build coming soon!</strong></p>
+          <p>Compile the SFML game to WebAssembly (Emscripten) and drop the output into<br>
+            <code>games/timber/</code> (must contain <code>index.html</code>).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thomas Was Late (SFML C++ compiled to WebAssembly via Emscripten) -->
+  <div class="window game-window" id="playThomas" style="display:none; width: 74vw; height: 76vh; top: 5%; left: 12%;">
+    <div class="title-bar">Thomas Was Late (SFML) <span class="close-btn"
+        onclick="closeWindow('playThomas')">X</span></div>
+    <div class="game-window-body">
+      <div class="game-toolbar">
+        <button type="button" onclick="gameFullscreen('playThomas')">&#9974; Fullscreen</button>
+        <a href="https://github.com/laurenHBpencil/CustomThomasWasLate" target="_blank">View source on GitHub</a>
+      </div>
+      <div class="game-embed">
+        <!-- TODO (Thomas): Build the SFML project to WebAssembly with Emscripten, producing
+             index.html + .js + .wasm + .data. Drop them into  games/thomas/  so that
+             games/thomas/index.html  exists. It will then auto-load in this iframe. -->
+        <iframe title="Thomas Was Late" data-src="games/thomas/index.html" allow="fullscreen; autoplay"
+          loading="lazy"></iframe>
+        <div class="game-placeholder">
+          <div class="game-placeholder-emoji">&#128642;</div>
+          <p><strong>Playable build coming soon!</strong></p>
+          <p>Compile the SFML game to WebAssembly (Emscripten) and drop the output into<br>
+            <code>games/thomas/</code> (must contain <code>index.html</code>).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Taskbar -->
   <div class="taskbar">
     <div class="start-btn" id="start-btn" onclick="toggleStartMenu(event)">Start</div>
@@ -429,6 +553,15 @@
           alt="">Experience</div>
       <div class="start-item" onclick="startOpen('cv')"><img src="images/icons/note.png" alt="">CV</div>
       <div class="start-item" onclick="startOpen('contact')"><img src="images/icons/folder.png" alt="">Contact</div>
+      <hr>
+      <div class="start-item" onclick="startOpen('playAllcats')"><span class="start-emoji">&#128049;</span>Play: All
+        Cats</div>
+      <div class="start-item" onclick="startOpen('playCluedo')"><span class="start-emoji">&#128373;&#65039;</span>Play:
+        Cluedo</div>
+      <div class="start-item" onclick="startOpen('playTimber')"><span class="start-emoji">&#127794;</span>Play: Timber
+      </div>
+      <div class="start-item" onclick="startOpen('playThomas')"><span class="start-emoji">&#128642;</span>Play: Thomas
+        Was Late</div>
       <hr>
       <a class="start-item" href="https://github.com/laurenHBpencil" target="_blank"><img src="images/icons/cmd.png"
           alt="">GitHub</a>

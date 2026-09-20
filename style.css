@@ -624,3 +624,133 @@
         color: #c0392b;
     }
 
+    /* Start-menu emoji entries (games) */
+    .start-emoji 
+    {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        font-size: 18px;
+    }
+
+    /* Playable game windows */
+    .game-window 
+    {
+        min-width: 320px;
+    }
+
+    .game-window-body 
+    {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 34px);
+    }
+
+    .game-toolbar 
+    {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 4px;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+    }
+
+    .game-toolbar button 
+    {
+        font-family: 'VT323', monospace;
+        font-size: 17px;
+        padding: 3px 14px;
+        background: #ece9d8;
+        border: 2px outset #f5f4ea;
+        cursor: pointer;
+    }
+
+    .game-toolbar button:hover 
+    {
+        background: #f5f4ea;
+    }
+
+    .game-toolbar button:disabled 
+    {
+        opacity: 0.6;
+        cursor: default;
+    }
+
+    .game-toolbar a 
+    {
+        font-size: 16px;
+    }
+
+    .game-embed 
+    {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        background: #000;
+        border: 2px inset #fff;
+        overflow: hidden;
+    }
+
+    .game-embed iframe 
+    {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+    }
+
+    /* CheerpJ injects its own canvas/elements into the embed */
+    .game-embed canvas 
+    {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .game-placeholder 
+    {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 6px;
+        padding: 20px;
+        color: #fff;
+        background: radial-gradient(circle at center, #1a4bb3 0%, #000080 80%);
+        font-size: 18px;
+        z-index: 2;
+    }
+
+    .game-placeholder code 
+    {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-family: 'Courier New', monospace;
+    }
+
+    .game-placeholder-emoji 
+    {
+        font-size: 54px;
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+    @media only screen and (max-width: 768px) 
+    {
+        .game-window 
+        {
+            width: 96vw !important;
+            left: 2vw !important;
+            height: 82vh !important;
+            max-height: 82vh;
+        }
+    }
+

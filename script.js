@@ -10,6 +10,10 @@ const WINDOW_META = {
   githubProjects: { label: 'GitHub Projects', icon: 'images/icons/folder.png' },
   achievements: { label: 'Achievements', icon: 'images/icons/certs.png' },
   recycle: { label: 'Recycle Bin', icon: 'images/icons/folder.png' },
+  playAllcats: { label: 'All Cats Must Die', icon: 'images/icons/cmd.png' },
+  playCluedo: { label: 'Cluedo (Java)', icon: 'images/icons/cmd.png' },
+  playTimber: { label: 'Custom Timber (SFML)', icon: 'images/icons/cmd.png' },
+  playThomas: { label: 'Thomas Was Late (SFML)', icon: 'images/icons/cmd.png' },
   explorer: { label: 'Explorer', icon: 'images/icons/cmd.png' }
 };
 
@@ -51,6 +55,7 @@ function focusWindow(id) {
   document.querySelectorAll('.window').forEach(w => w.classList.remove('active-window'));
   win.classList.add('active-window');
   setActiveTab(id);
+  initGameFrames(win);
 }
 
 // Minimise: hide the window but keep its taskbar tab
@@ -715,6 +720,105 @@ function initBootScreen() {
     boot.classList.add('hidden');
     setTimeout(() => boot.remove(), 700);
   }, 2000);
+}
+
+/* ============================================================
+   Playable games (embedded builds)
+   ============================================================ */
+
+// Lazily load any game iframes inside a window the first time it's shown.
+// Each iframe carries a data-src pointing at its build; we only fetch it
+// when the window is actually opened (keeps the homepage light).
+function initGameFrames(win) {
+  if (!win) return;
+  win.querySelectorAll('iframe[data-src]:not([data-loaded])').forEach((frame) => {
+    frame.setAttribute('data-loaded', '1');
+    frame.addEventListener('load', () => handleGameLoad(frame));
+    frame.src = frame.getAttribute('data-src');
+  });
+}
+
+// After an iframe loads, decide whether it's the real game or a missing build.
+// If the build isn't there yet, GitHub Pages serves our 404 page, which we
+// detect by title so we can keep the friendly placeholder visible.
+function handleGameLoad(frame) {
+  const embed = frame.closest('.game-embed');
+  if (!embed) return;
+  const placeholder = embed.querySelector('.game-placeholder');
+  let missing = false;
+  try {
+    const doc = frame.contentDocument;
+    const title = ((doc && doc.title) || '').toLowerCase();
+    if (title.includes('404') || title.includes('not found')) missing = true;
+  } catch (e) {
+    // Cross-origin (shouldn't happen for same-site builds) — assume it loaded fine.
+  }
+  if (placeholder) placeholder.style.display = missing ? 'flex' : 'none';
+  embed.classList.toggle('game-loaded', !missing);
+}
+
+// Fullscreen the game area of a given window.
+function gameFullscreen(winId) {
+  const embed = document.querySelector('#' + winId + ' .game-embed');
+  if (!embed) return;
+  const target = embed.querySelector('iframe') || embed;
+  const req = target.requestFullscreen || target.webkitRequestFullscreen || target.msRequestFullscreen;
+  if (req) req.call(target);
+}
+
+// Launch the Cluedo Java app in-browser via CheerpJ (loaded on demand).
+// Requires the built jar at games/cluedo/CluedoTopcat.jar (mounted at /app/ by CheerpJ).
+let cheerpjReady = false;
+function launchCluedo() {
+  const btn = document.getElementById('cluedo-launch');
+  const placeholder = document.getElementById('cluedo-placeholder');
+  const embed = document.getElementById('cluedo-embed');
+  if (btn) btn.disabled = true;
+  if (placeholder) {
+    placeholder.style.display = 'flex';
+    placeholder.innerHTML = '<div class="game-placeholder-emoji">\u23F3</div><p>Loading the Java runtime\u2026</p>';
+  }
+
+  const showError = () => {
+    if (placeholder) {
+      placeholder.style.display = 'flex';
+      placeholder.innerHTML = '<div class="game-placeholder-emoji">\u26A0\uFE0F</div>' +
+        '<p><strong>Could not launch Cluedo.</strong></p>' +
+        '<p>Make sure <code>games/cluedo/CluedoTopcat.jar</code> exists, then try again.</p>';
+    }
+    if (btn) btn.disabled = false;
+  };
+
+  const start = () => {
+    if (placeholder) placeholder.style.display = 'none';
+    try {
+      // -1, -1 makes CheerpJ size its display to fill the parent element.
+      cheerpjCreateDisplay(-1, -1, embed);
+      cheerpjRunJar('/app/games/cluedo/CluedoTopcat.jar').catch(showError);
+    } catch (e) {
+      showError();
+    }
+  };
+
+  if (cheerpjReady) {
+    start();
+    return;
+  }
+
+  // Load the CheerpJ runtime loader on demand (only when someone clicks Launch).
+  const loader = document.createElement('script');
+  loader.src = 'https://cjrtnc.leaningtech.com/3.0/cj3loader.js';
+  loader.onload = async () => {
+    try {
+      await cheerpjInit();
+      cheerpjReady = true;
+      start();
+    } catch (e) {
+      showError();
+    }
+  };
+  loader.onerror = showError;
+  document.head.appendChild(loader);
 }
 
 /* ---- Init ---- */
