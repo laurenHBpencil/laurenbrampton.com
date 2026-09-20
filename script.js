@@ -792,56 +792,74 @@ function gameFullscreen(winId) {
 // Launch the Cluedo Java app in-browser via CheerpJ (loaded on demand).
 // Requires the built jar at games/cluedo/CluedoTopcat.jar (mounted at /app/ by CheerpJ).
 let cheerpjReady = false;
+const CLUEDO_JAR_PATH = 'games/cluedo/CluedoTopcat.jar';
 function launchCluedo() {
   const btn = document.getElementById('cluedo-launch');
   const placeholder = document.getElementById('cluedo-placeholder');
   const embed = document.getElementById('cluedo-embed');
   if (btn) btn.disabled = true;
-  if (placeholder) {
-    placeholder.style.display = 'flex';
-    placeholder.innerHTML = '<div class="game-placeholder-emoji">\u23F3</div><p>Loading the Java runtime\u2026</p>';
-  }
 
-  const showError = () => {
-    if (placeholder) {
-      placeholder.style.display = 'flex';
-      placeholder.innerHTML = '<div class="game-placeholder-emoji">\u26A0\uFE0F</div>' +
-        '<p><strong>Could not launch Cluedo.</strong></p>' +
-        '<p>Make sure <code>games/cluedo/CluedoTopcat.jar</code> exists, then try again.</p>';
-    }
+  const setPlaceholder = (emoji, html) => {
+    if (!placeholder) return;
+    placeholder.style.display = 'flex';
+    placeholder.innerHTML = '<div class="game-placeholder-emoji">' + emoji + '</div>' + html;
+  };
+
+  const showError = (msg) => {
+    setPlaceholder('\u26A0\uFE0F', '<p><strong>Could not launch Cluedo.</strong></p><p>' +
+      (msg || 'Please try again in a moment.') + '</p>');
     if (btn) btn.disabled = false;
   };
+
+  // CheerpJ needs the page served over http(s); it can't fetch from a file:// page.
+  if (location.protocol === 'file:') {
+    showError('Cluedo needs to run from the live site (<code>https://laurenbrampton.com</code>), ' +
+      'not a local file. Open it there and click Launch.');
+    return;
+  }
+
+  setPlaceholder('\u23F3', '<p>Loading the Java runtime\u2026</p><p>(first load can take a few seconds)</p>');
 
   const start = () => {
     if (placeholder) placeholder.style.display = 'none';
     try {
       // -1, -1 makes CheerpJ size its display to fill the parent element.
       cheerpjCreateDisplay(-1, -1, embed);
-      cheerpjRunJar('/app/games/cluedo/CluedoTopcat.jar').catch(showError);
+      cheerpjRunJar('/app/' + CLUEDO_JAR_PATH).catch(() => showError('The game failed to start. Please refresh and try again.'));
     } catch (e) {
-      showError();
+      showError('The game failed to start. Please refresh and try again.');
     }
   };
 
-  if (cheerpjReady) {
-    start();
-    return;
-  }
-
-  // Load the CheerpJ runtime loader on demand (only when someone clicks Launch).
-  const loader = document.createElement('script');
-  loader.src = 'https://cjrtnc.leaningtech.com/3.0/cj3loader.js';
-  loader.onload = async () => {
-    try {
-      await cheerpjInit();
-      cheerpjReady = true;
-      start();
-    } catch (e) {
-      showError();
-    }
+  const boot = () => {
+    if (cheerpjReady) { start(); return; }
+    // Load the CheerpJ runtime loader on demand (only when someone clicks Launch).
+    const loader = document.createElement('script');
+    loader.src = 'https://cjrtnc.leaningtech.com/3.0/cj3loader.js';
+    loader.onload = async () => {
+      try {
+        await cheerpjInit();
+        cheerpjReady = true;
+        start();
+      } catch (e) {
+        showError('Could not load the Java runtime. Check your connection and try again.');
+      }
+    };
+    loader.onerror = () => showError('Could not load the Java runtime (network blocked?).');
+    document.head.appendChild(loader);
   };
-  loader.onerror = showError;
-  document.head.appendChild(loader);
+
+  // Confirm the jar is actually reachable before spinning up the runtime,
+  // so we can give a clear message if it's missing.
+  fetch(CLUEDO_JAR_PATH, { method: 'HEAD' })
+    .then((res) => {
+      if (res.ok) {
+        boot();
+      } else {
+        showError('The game file could not be found on the server (HTTP ' + res.status + ').');
+      }
+    })
+    .catch(() => boot()); // HEAD may be blocked in some setups; try running anyway
 }
 
 /* ---- Init ---- */
