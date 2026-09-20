@@ -49,13 +49,52 @@ function openExplorer(projectId) {
 
   const titles =
   {
+    numworlds: "NumWorlds (Unreal Engine)",
     allcats: "All Cats Must Die",
-    zombie: "PCOS Tracker (SFML)",
-    cluedo: "Top-Cat Cluedo UI (Java)"
+    portfolioWebsite: "Portfolio Website (HTML/CSS/JS)",
+    pcosTracker: "PCOS Tracker (Java EE)",
+    cluedo: "Top-Cat Cluedo UI (Java)",
+    clientServer: "Python Client-Server (Sockets)"
   };
   title.textContent = titles[projectId] || "Project";
 
   switch (projectId) {
+    case 'numworlds':
+      content.innerHTML = `
+    <h2>NumWorlds</h2>
+    <p><em>A commercial game released on Steam & mobile, developed during my internship at Black Pug Studio</em></p>
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+      <div style="flex: 1 1 60%; min-width: 300px;">
+        <p><strong>Tools Used:</strong> Unreal Engine, C++</p>
+        <p><strong>Role:</strong> Game Programmer Intern @ Black Pug Studio (Galway)</p>
+        <p><strong>Description:</strong><br><br>
+        NumWorlds is a commercial title released on Steam and mobile featuring 200+ levels. I contributed to the game
+        during my internship at Black Pug Studio, working on gameplay and content implementation, testing and iteration
+        within an existing production project and team workflow.</p>
+
+        <p><strong>What I Did:</strong></p>
+        <ul>
+          <li>Developed and tested gameplay features using Unreal Engine and C++</li>
+          <li>Implemented gameplay content across a game with 200+ levels</li>
+          <li>Collaborated with the team on debugging, iteration and release-focused tasks</li>
+          <li>Adapted to established studio workflows and development tools</li>
+        </ul>
+
+        <p><strong>What I Learned:</strong><br>
+        Working within a commercial production codebase, professional studio workflows, and shipping and iterating on a
+        released title.</p>
+
+        <p>
+          <a href="https://numworlds.com/" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 15px; background-color: #000080; color: white; text-decoration: none; border-radius: 5px;">
+            View Game
+          </a>
+        </p>
+      </div>
+    </div>
+  `;
+      break;
+
     case 'allcats':
       content.innerHTML = `
     <h2>All Cats Must Die</h2>
@@ -138,7 +177,7 @@ function openExplorer(projectId) {
     <h3>Gallery</h3><p><em>Click to enlarge photos</em> </p>
   <div style="display: flex; overflow-x: auto; gap: 10px; padding-top: 10px;">
     <img src="images/portfolio/allOpen.png" alt="All Sections Open" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
-    <img src="images/portfolio/pyOpen.png" alt="Project Tab Open onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
+    <img src="images/portfolio/pyOpen.png" alt="Project Tab Open" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
     <img src="images/portfolio/enlargedPng.png" alt="Photo Enlarged On Click" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
     <img src="images/portfolio/youtubeExample.png" alt="Youtube Video Displayed & Playable" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">
     <img src="images/portfolio/site.png" alt="Homepage" onclick="showImageModal(this.src)" style="height: 200px; border-radius: 5px; cursor: zoom-in;">

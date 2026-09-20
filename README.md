@@ -7,7 +7,7 @@ Live Website
 [https://laurenbrampton.com](https://laurenbrampton.com/)
 
 About Me  
-I'm Lauren Brampton, a third year Game & Software Dev student at TUS Thurles, passionate about all things techy, games and design.
+I'm Lauren Brampton, a Games Design and Development student at TUS Thurles graduating in 2027, specialising in game programming with experience in C++, C#, Unreal Engine and Unity. I have commercial development experience as a Game Programmer Intern at Black Pug Studio.
 
 I’ve built this site as a creative way to show off
 - My college and personal projects
@@ -27,9 +27,11 @@ Technologies Used
 
 Projects Featured
 
-- All Cats Must Die – Two player party platformer (Construct 3)  
+- NumWorlds – Commercial game on Steam & mobile, 200+ levels (Unreal Engine / C++) – developed at Black Pug Studio  
+- All Cats Must Die – Two player party platformer, "Most Commended" at Games Fleadh 2025 (Construct 3)  
 - PCOS Tracker – Health web app (Java EE + MySQL)  
 - Top Cat Themed Cluedo – Java board game UI recreation  
+- Python Client-Server – Socket-based number evaluator (Python)  
 - This Portfolio Website – You’re already looking at it!
 
 CV & Contact
